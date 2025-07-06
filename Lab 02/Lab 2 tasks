@@ -1,0 +1,868 @@
+;AH = 1; single character input , It will be saved in AL.
+;AH = 2; single character output , The item to be printed must be in DL
+;AH = 9; string output
+##########################################################################################
+;1
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 'Display the message: $'
+
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,1
+    int 21h
+      
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+
+
+##########################################################################################
+;2
+.+MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 'Please enter a number: $'
+b db 'Please enter a number: $'
+c db 'Addition result is: $'
+d db 'Subtraction result is: $'
+e db 'Multiplication result is: $' 
+f db 'Division result is: $'
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+    ;Addition Part
+    
+    mov ah, 9
+    lea dx, a
+    int 21h   ;showing message that stored in a
+    
+    mov ah,1
+    int 21h   ;taking input 1 
+    
+    
+    mov bl, al  ;moving input 1 to bl
+    sub bl, 30h 
+    
+    
+    ;new line
+    mov ah,2
+    mov dl, 0Dh
+    int 21h     
+    mov dl, 0Ah
+    int 21h
+    
+    mov ah,9 
+    lea dx, b
+    int 21h     ;showing message that stored in b
+    
+    mov ah, 1
+    int 21h     ;taking input 2
+    
+    
+    mov bh, al  ;moving input 2 to cl
+    sub bh, 30h 
+    
+    
+    ;new line
+    mov ah,2
+    mov dl, 0Ah
+    int 21h
+    mov dl, 0Dh
+    int 21h
+    
+    
+    mov ah,9
+    lea dx, c
+    int 21h    ;showing message that stored in c 
+    
+    add bh, bl
+    add bh,30h
+    
+    mov dl, bh 
+ 
+    
+    mov ah, 2
+    int 21h
+    
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    mov dx, 0dh
+    int 21h     
+    
+    
+    ;Subtraction Part
+    
+    mov ax, 0
+    mov bx, 0
+    mov dx, 0
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+    
+    
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,1
+    int 21h
+    
+    mov bl, al
+    sub bl,30h
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+    
+    mov ah,9
+    lea dx, b
+    int 21h
+    
+    mov ah, 1
+    int 21h
+    mov bh, al
+    sub bh, 30h
+    
+    sub bl, bh
+    
+    mov ah, 2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+    
+    mov ah,9
+    lea dx, d
+    int 21h
+    
+    mov dl, bl
+    add dl,30h
+    
+    mov ah, 2
+    int 21h
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    mov dx, 0dh
+    int 21h 
+    
+    
+    ;multiplication part
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    mov dx, 0dh
+    int 21h 
+    
+    mov ah,9
+    lea dx, a
+    int 21h
+    
+    mov ah,1
+    int 21h
+    mov bl,al
+    sub bl, 30h
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    mov dx, 0dh
+    int 21h 
+    
+    mov ah,9
+    lea dx, b
+    int 21h
+        
+    mov ah,1
+    int 21h
+    sub al, 30h
+    mul bl
+    mov bh, al
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    mov dx, 0dh
+    int 21h
+         
+
+
+    
+    mov ah,9
+    lea dx, e
+    int 21h
+    
+    mov dl, bh
+    add dl, 30h 
+    
+    mov ah, 2
+    int 21h
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    mov dx, 0dh
+    int 21h 
+    
+    
+    ;Division Part 
+    
+
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    mov dx, 0dh
+    int 21h         ;new line
+    
+    mov ah,9
+    lea dx, a
+    int 21h         ;promt print
+    
+    mov ah,1
+    int 21h
+    sub al, 30h
+    mov bl,al       ;moving input to bl
+    
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    mov dx, 0dh
+    int 21h         ;new line
+    
+    mov ah,9
+    lea dx, b
+    int 21h        ;promt print
+        
+    mov ah,1
+    int 21h
+    sub al, 30h
+    mov cl, al      ;moving 2nd input to cl
+
+    mov al, bl
+    mov ah, 0   ;must need to make ah 0 for 
+    div cl
+    mov ch,al
+
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    mov dx, 0dh
+    int 21h
+         
+
+
+    
+    mov ah,9
+    lea dx, f
+    int 21h
+    
+    mov dl, ch
+    add dl, 30h 
+
+    
+    mov ah, 2
+    int 21h
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    mov dx, 0dh
+    int 21h   
+    
+    
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+##########################################################################################
+;3
+;1
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 'Put a character: $'
+
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,1
+    int 21h
+    
+    mov bl, al
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    
+    mov dl, bl
+    mov ah,2
+    int 21h
+      
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+
+;2
+
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 'Give me a uppercase letter: $'
+
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,1
+    int 21h
+    
+    mov bl, al
+    
+
+    
+    mov dl, bl
+    add dl, 20h ;upper-lower
+    mov ah,2
+    int 21h
+      
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+##########################################################################################
+;4
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 'Give me a uppercase letter: $'
+
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,1
+    int 21h
+    
+    mov bl, al
+    
+    mov ah,2
+    mov dx, 0ah
+    int 21h
+    
+    mov dl, bl
+    add dl, 20h ;upper-lower
+    mov ah,2
+    int 21h
+      
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+
+##########################################################################################
+;5
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db '?$'
+b db 'The sum of $'
+c db ' and $'
+d db ' is $'
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,1
+    int 21h
+    
+    mov bl, al
+    sub bl,30h
+    mov cl, bl
+    
+    mov ah,1
+    int 21h
+    
+    mov bh, al
+    sub bh,30h
+    mov ch, bh
+    
+    add bh,bl
+    add bh, 30h
+    
+    
+    mov ah, 2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+    
+    mov ah, 9
+    lea dx, b
+    int 21h
+    
+    mov dl, cl
+    add dl, 30h
+    mov ah, 2
+    int 21h
+    
+    mov ah, 9
+    lea dx, c
+    int 21h
+    
+    mov dl, ch
+    add dl, 30h
+    mov ah, 2
+    int 21h
+    
+    
+    mov ah, 9
+    lea dx, d
+    int 21h
+    
+    mov dl, bh
+    mov ah,2
+    int 21h    
+    
+    
+
+
+      
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+
+
+
+##########################################################################################
+;6
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 'ENTER THREE INITIALS: $'
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah, 1
+    int 21h
+    mov bh, al
+    
+    mov ah,1
+    int 21h
+    mov bl,al
+    
+    mov ah,1
+    int 21h
+    mov ch, al
+    
+    
+    mov ah,2
+    mov dx, 0AH
+    int 21h
+    mov dx, 0Dh
+    int 21h
+    
+    mov dl, bh
+    mov ah,2
+    int 21h
+    
+    mov ah,2
+    mov dx, 0AH
+    int 21h
+    mov dx, 0Dh
+    int 21h
+    
+    mov dl, bl
+    mov ah,2
+    int 21h
+    
+    mov ah,2
+    mov dx, 0AH
+    int 21h
+    mov dx, 0Dh
+    int 21h    
+    
+    mov dl, ch
+    mov ah, 2
+    int 21h
+
+
+      
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+
+##########################################################################################
+;7
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 'ENTER A HEX DIGIT: $'
+b db  'IN DECIMAL IT IS $'
+result db '00 $' 
+
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+    mov ah, 9 ;showing promt
+    lea dx, a
+    int 21h
+    
+    mov ah,1   ;taking input
+    int 21h
+    
+
+    sub al, 'A'
+    add al, 10    ; input - 'A' + 10
+
+    
+    mov ah,0     ; clear for division
+    mov cl, 10
+    div cl
+    add al, '0'  ; Convert quotient to ASCII
+    
+    mov result[0], al
+    
+    mov al, ah
+    add al, '0'
+    mov result[1], al
+    
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+    
+    lea dx, result
+    mov ah, 9
+    int 21h
+
+
+    
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+
+
+##########################################################################################
+;8
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db '**********$' 
+
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+;1
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+
+;2
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+
+;3
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+
+;4
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+          
+;5
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+
+;6
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+
+;7
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+    
+;8
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h   
+
+;9
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+
+;10
+    mov ah, 9
+    lea dx, a
+    int 21h
+    
+    mov ah,2
+    mov dx, 0Ah
+    int 21h
+    mov dx, 0Dh
+    int 21h
+
+    
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+
+
+##########################################################################################
