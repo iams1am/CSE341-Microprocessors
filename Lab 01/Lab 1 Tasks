@@ -1,0 +1,673 @@
+##########################################################################################
+;Task 1
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 1,2,3,4,5
+b db 5 dup(?)
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+ mov ax, 5
+ mov bx, ax
+
+ ;exit to DOS
+
+ MOV AX,4C00H
+ INT 21H
+
+MAIN ENDP
+    END MAIN
+##########################################################################################
+
+;Task 1ii
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+
+
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+   
+    mov ax, 2
+    inc ax
+    mov bx, 3
+    dec bx
+    mul bx
+    mov cx, ax ;(1 + 2) * (3 – 1)
+    mov ax, 2
+    mov bx, 1
+    mul bx
+    mov bx, ax ;(1 * 2)
+    mov ax, cx ;now ax=6
+    mov cx, 5
+    div cx     ;result will store in AX
+    add ax, 3
+    add ax, 2  ;result + 3 + 2
+    sub ax, bx ;(1 + 2) * (3 – 1) / 5 + 3 + 2 – (1 * 2)
+      
+    
+    
+    
+    
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+##########################################################################################
+
+;Task 2
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 1,2,3,4,5
+b db 5 dup(?)
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+mov ax, 5
+mov bx,6
+mov cx,ax
+mov ax,bx
+mov bx,cx
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+
+;2
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 1,2,3,4,5
+b db 5 dup(?)
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+mov ax, 5
+mov bx,6
+mov cx,ax
+mov ax,bx
+mov bx,cx
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+
+##########################################################################################
+
+;3
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 1,2,3,4,5
+b db 5 dup(?)
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+mov ax, 5
+mov bx,6
+add ax,bx
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+
+;4
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 1,2,3,4,5
+b db 5 dup(?)
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+
+mov ax, 5
+mov bx, 4
+sub ax, bx
+
+
+mov ax, 6
+mov bx, 7
+sub ax, bx
+neg ax  ;1' compliment
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+
+##########################################################################################
+
+;5
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+a db 1,2,3,4,5
+b db 5 dup(?)
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+
+mov ax, 5
+mov bx, 4
+add ax,bx
+sub bx,ax
+neg bx
+sub ax,bx
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+
+##########################################################################################
+
+;6
+;1
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+A dw 06h
+B dw 05h
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+
+mov ax, A
+mov bx, B
+sub bx,ax
+neg bx
+mov ax, bx
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+
+
+;2
+
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+A dw 06h
+
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+
+mov ax, A
+inc ax
+neg ax
+
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+
+
+;3
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+A dw 6h
+B dw 5h
+C dw  ?
+
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+
+mov ax, A
+mov bx, B
+mov cx, c
+inc bx
+add ax, bx
+mov cx, ax
+
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+
+;4 
+
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+A dw 6h
+B dw 8h
+
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+
+mov ax, A
+mov bx, B
+dec ax
+sub bx, ax
+mov ax, bx
+
+
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+##########################################################################################
+
+;7
+; 1
+
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+X dw 6h
+Y dw 8h
+
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+
+mov ax, X
+mov bx, Y
+mul bx
+
+
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+    
+    
+    
+    
+    
+; 2
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+X dw 10h
+Y dw 5h
+
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+
+mov ax, X
+mov bx, Y
+div bx          ;in byte division dividend is 16 bit it must kept in AX 
+                ; after division 8 bit quotient in AL and 8 bit remainder in AH
+                ;In word division dividend 32 bit must be kept in DX:AX 
+                ;After division 16 bit quoitient is in AX and 16 bit remainder is in DX
+
+
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+    
+    
+    
+    
+;3
+
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+X dw 10h
+Y dw 5h
+Z dw 10h
+
+.CODE
+MAIN PROC
+
+;iniitialize DS
+
+MOV AX,@DATA
+MOV DS,AX
+
+
+mov ax, X
+mov bx, Y
+mov cx, Z
+mul bx
+div cx
+
+
+
+;exit to DOS
+               
+MOV AX,4C00H
+INT 21H
+
+MAIN ENDP
+    END MAIN
+
+##########################################################################################
+
+
+;8
+;Task 1
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+
+
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+    mov dx, 2000h
+    mov ax, 036DFh
+    mov bx,0AFh
+    mul bx
+    
+    
+    
+    
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+
+
+
+;Task 2
+
+
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+
+
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+    mov dx, 08A32h
+    mov ax, 0F4D5h
+    mov bx, 0C9A5h
+    div bx
+    
+    
+    
+    
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+;Task 3
+
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+
+
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+   
+    mov ax, 0CA92h
+    mov bx,0BAF9h
+    mul bx   ;16bit x 16bit multiply total 32bit, DX will store higher 16bit and AX will store lower 16bit
+    
+    
+    
+    
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
+; Task 4
+
+.MODEL SMALL
+ 
+.STACK 100H
+
+.DATA
+
+
+
+
+.CODE  
+MAIN PROC
+
+    ;iniitialize DS
+    
+    MOV AX,@DATA
+    MOV DS,AX
+     
+    ; enter your code here 
+    
+   
+    mov ax, 0C2A2h
+    mov bx,0ABCDh
+    mov cx, 0BEDh
+   
+    mul bx 
+    div cx  
+    
+    
+    
+    
+    ;exit to DOS
+                   
+    MOV AX,4C00H
+    INT 21H
+
+MAIN ENDP
+    END MAIN
+
+
