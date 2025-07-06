@@ -1,0 +1,1258 @@
+;JMP unconditional jump
+
+;Conditional Jump
+;JE = Jump Equal
+;JL = Jump Less
+;JG = Jump Greater
+;JGE = Jump Greater or Equal
+;JLE = Jump Less or Equal
+
+;CMP = Compare between two reg
+
+##########################################################################################
+;1
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+A DB "GREATER$"
+B DB "EQUAL$"
+
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    MOV AX, 6
+    NEG AX
+    MOV BX, 0
+    
+    CMP AX, BX
+    JL L1
+    JG L2
+    JE L3
+    
+    JMP EXIT
+    
+    
+    L2:
+        MOV AH,9
+        LEA DX,A
+        INT 21H
+        JMP EXIT 
+        
+    L1: 
+        MOV DX, '5'
+        MOV AH, 2
+        INT 21H
+        JMP EXIT
+    
+    L3:
+        MOV AH,9
+        LEA DX,B
+        INT 21H
+        JMP EXIT  
+       
+
+     
+        
+    EXIT:
+        
+    
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+##########################################################################################
+;10
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+A DB 'PLEASE ENTER A NUMBER: $'
+B DB 'MAXIMUM NUMBER IS: $'
+C DB 'MINIMUM NUMBER IS: $'
+
+NUM1 DB ?
+NUM2 DB ?
+NUM3 DB ?
+
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    MOV AH,9
+    LEA DX, A
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    MOV NUM1, AL
+    
+    MOV DL, ','
+    MOV AH,2
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    MOV NUM2, AL 
+    
+    MOV DL, ','
+    MOV AH,2
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    MOV NUM3, AL
+    
+    ;FOR MAXIMUM
+    
+    MOV CH, NUM1
+    MOV CL, NUM2
+    MOV BH, NUM3
+    
+    CMP CH, CL
+    JG CHECKER1  
+    MOV CH, CL
+    JMP CHECKER1 
+    
+    
+    CHECKER1:
+        CMP CH,BH
+        JG MAX1
+        MOV CH, BH
+        JMP MAX1
+    
+    MAX1:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, B
+        INT 21H
+        
+        MOV DL,CH
+        MOV AH,2
+        INT 21H
+        
+    ;FOR MINIMUM
+    
+    MOV CH, NUM1
+    MOV CL, NUM2
+    MOV BH, NUM3        
+        
+    
+    CMP CH, CL
+    JL CHECKER2  
+    MOV CH, CL
+    JMP CHECKER2
+    
+    CHECKER2:
+        CMP CH,BH
+        JL MINI
+        MOV CH,BH
+        JMP MINI
+    MINI:
+         
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, C
+        INT 21H
+        
+        MOV DL,CH
+        MOV AH,2
+        INT 21H
+                    
+
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+##########################################################################################
+;11
+
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+A DB 'PLEASE ENTER A SIDE: $'
+SIDE_1 DB ?
+SIDE_2 DB ?
+SIDE_3 DB ?
+
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    MOV AH,9
+    LEA DX,A
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0' ;CONVERT ASCII TO DEC
+    MOV SIDE_1, AL
+    
+    MOV DL, ','
+    MOV AH,2
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    SUB AL,'0' 
+    MOV SIDE_2, AL
+    
+    MOV DL, ','
+    MOV AH,2
+    INT 21H
+        
+    MOV AH,1
+    INT 21H
+    SUB AL,'0' 
+    MOV SIDE_3, AL
+    
+    
+    MOV CL, SIDE_1
+    MOV CH, SIDE_2
+    MOV BL, SIDE_3
+    
+    ADD CL,CH
+    CMP CL,BL
+    JL NOT_YET
+    
+    MOV CL, SIDE_1
+    MOV CH, SIDE_2
+    MOV BL, SIDE_3
+    
+    ADD CL,BL
+    CMP CL,CH
+    JL NOT_YET    
+
+    
+    MOV CL, SIDE_1
+    MOV CH, SIDE_2
+    MOV BL, SIDE_3
+    
+    ADD CH,BL
+    CMP CH,CL
+    JL NOT_YET
+    
+    MOV AH,2
+    MOV DX,0AH
+    INT 21H
+    MOV DX, 0DH
+    INT 21H
+    
+    MOV DL, 'Y'
+    MOV AH,2
+    INT 21H
+    JMP EXIT
+    
+    NOT_YET:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX, 0DH
+        INT 21H
+        
+        MOV DL, 'N'
+        MOV AH,2
+        INT 21H       
+    EXIT:
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+##########################################################################################
+;12
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+RNG1 DB 'i$'
+RNG2 DB 'k$'
+RNG3 DB 'l$'
+RNG4 DB 'm$'
+
+
+
+
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+    
+
+    MOV AL,3     ;GIVE INPUT HERE
+    MOV BL, AL
+    MOV CH,0
+
+    
+    CMP BL, CH
+    JL EXIT
+    
+    MOV CH,3
+    CMP BL, CH
+    JLE PRINT_1
+
+
+    MOV CH,6
+    CMP BL, CH
+    JLE PRINT_2
+
+        
+    MOV CH,9
+    CMP BL, CH
+    JLE PRINT_3
+    
+    MOV CL, 10
+    SUB CL, '0'
+    MOV CH,10
+    CMP BL, CH
+    JE PRINT_4
+    JMP EXIT
+    
+    PRINT_1:
+        MOV DL,RNG1
+        MOV AH,2
+        INT 21H
+        JMP EXIT    
+    
+    PRINT_2:
+        MOV DL,RNG2
+        MOV AH,2
+        INT 21H
+        JMP EXIT      
+
+    PRINT_3:
+        MOV DL,RNG3
+        MOV AH,2
+        INT 21H
+        JMP EXIT      
+    
+    PRINT_4:
+        MOV DL,RNG4
+        MOV AH,2
+        INT 21H  
+
+
+
+
+    EXIT:
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+##########################################################################################
+;13
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+A DB 'ENTER A DIGIT: $'
+DAY1 DB 'SATURDAY$'
+DAY2 DB 'SUNDAY$'
+DAY3 DB 'MONDAY$'
+DAY4 DB 'TUESDAY$'
+DAY5 DB 'WEDNESDAY$'
+DAY6 DB 'THURSDAY$'
+DAY7 DB 'FRIDAY$'
+
+
+
+
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+
+    MOV AH,9
+    LEA DX,A
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    SUB AL, '0'
+    MOV BL,AL
+    
+    MOV CL,1
+    CMP BL,CL
+    JE PRINT1
+    JL EXIT
+    
+    MOV CL,2
+    CMP BL,CL
+    JE PRINT2
+     
+    MOV CL,3
+    CMP BL,CL
+    JE PRINT3
+
+    MOV CL,4
+    CMP BL,CL
+    JE PRINT4
+
+    MOV CL,5
+    CMP BL,CL
+    JE PRINT5
+    
+    MOV CL,6
+    CMP BL,CL
+    JE PRINT6
+    
+    MOV CL,7
+    CMP BL,CL
+    JE PRINT7
+    JMP EXIT
+    
+    PRINT1:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+
+        
+        MOV AH,9
+        LEA DX, DAY1
+        INT 21H
+        
+        JMP EXIT
+
+    PRINT2:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, DAY2
+        INT 21H
+
+        JMP EXIT
+        
+    PRINT3:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, DAY3
+        INT 21H
+        
+        JMP EXIT
+        
+    PRINT4:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, DAY4
+        INT 21H
+        
+        JMP EXIT
+
+    PRINT5:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, DAY5
+        INT 21H
+        
+        JMP EXIT
+        
+    PRINT6:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, DAY6
+        INT 21H
+        
+        JMP EXIT
+        
+    PRINT7:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, DAY7
+        INT 21H
+                
+        
+                        
+
+    EXIT:
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+##########################################################################################
+;14
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+A DB 'USER INPUT: $'
+TYP1 DB '31 DAYS$'
+TYP2 DB '30 DAYS$'
+TYP3 DB '28 DAYS$'
+
+NUM1 DB '2$'
+NUM2 DB '8$'
+
+
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+
+    MOV AH,9
+    LEA DX,A
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    SUB AL, '0'
+    MOV BL,AL
+    
+    MOV CL, NUM1
+    SUB CL, '0'
+    CMP BL, CL
+    JE TYP_3
+    MOV CL, NUM2
+    SUB CL, '0'
+    CMP BL, CL
+    JE TYP_1
+    
+    MOV CL,2
+    MOV AL,BL
+    MOV AH, 0
+    DIV CL
+    CMP AH,0H
+    JE TYP_2
+    JG TYP_1
+    JMP EXIT
+    
+    TYP_1:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX, 0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, TYP1
+        INT 21H
+        JMP EXIT
+        
+    TYP_2:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX, 0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, TYP2
+        INT 21H
+        JMP EXIT
+        
+    TYP_3:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX, 0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, TYP3
+        INT 21H
+        JMP EXIT            
+
+    EXIT:
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+
+##########################################################################################
+;2
+
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+A DB "Enter the first Char: $"
+B DB "Enter the second char: $"
+C DB 'Winner is : $'
+D DB 'BOTH ARE EQUAL!$'
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    MOV AH,9h
+    LEA DX, A
+    INT 21h
+    MOV AH, 1h
+    INT 21h
+    MOV CH, AL
+    
+    MOV AH,2h
+    MOV DX, 0AH
+    INT 21h
+    MOV DX, 0DH
+    INT 21h
+    
+    MOV AH, 9h
+    LEA DX, B
+    INT 21h
+    MOV AH, 1
+    INT 21h
+    MOV CL, AL
+    
+    
+    CMP CH, CL
+    JG B_IS_FIRST
+    JL A_IS_FIRST
+    JE BOTH_EQUAL
+    JMP EXIT
+    
+    A_IS_FIRST:
+        MOV AH,2h
+        MOV DX, 0AH
+        INT 21h
+        MOV DX, 0DH
+        INT 21h
+        
+        MOV AH, 9h
+        LEA DX, C
+        INT 21h
+    
+        MOV DL, CH
+        MOV AH,2h
+        INT 21h
+        JMP EXIT
+        
+    B_IS_FIRST:
+        MOV AH,2h
+        MOV DX, 0AH
+        INT 21h
+        MOV DX, 0DH
+        INT 21h
+        
+        MOV AH, 9h
+        LEA DX, C
+        INT 21h
+    
+        MOV DL, CL
+        MOV AH,2h
+        INT 21h
+        JMP EXIT
+    
+    BOTH_EQUAL:
+    
+        MOV AH,2h
+        MOV DX, 0AH
+        INT 21h
+        MOV DX, 0DH
+        INT 21h
+        
+        
+        MOV AH,9
+        LEA DX, D
+        INT 21H
+        
+        
+    EXIT:        
+    
+     
+    
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+##########################################################################################
+;3
+
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    
+    MOV AX, 0   
+    MOV CX, 0
+    CMP AX,CX
+    JL NEGETIVE
+    JG POSITIVE
+    JE EQUAL
+    JMP EXIT
+    
+    NEGETIVE:
+        MOV BX, 1
+        NEG BX
+        JMP EXIT
+    
+    POSITIVE:
+        MOV BX, 1
+        JMP EXIT
+        
+    EQUAL:
+        MOV BX, 0
+        
+    EXIT:
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+
+
+
+##########################################################################################
+;4
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+A DB "Enter a num: $"
+
+NUM1 DB '1$ '
+NUM2 DB '2$'
+NUM3 DB '3$'
+NUM4 DB '4$'
+
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    MOV AH, 9
+    LEA DX, A
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    MOV CL, AL
+    
+    CMP CL, NUM1
+    JE PRINT_O
+    
+    CMP CL, NUM2
+    JE PRINT_E
+    
+    CMP CL, NUM3
+    JE PRINT_O
+    
+    CMP CL, NUM4
+    JE PRINT_E
+    
+    JMP EXIT
+    
+    PRINT_O:
+        MOV AH,2
+        MOV DX, 0AH
+        INT 21H
+        MOV DX, 0DH
+        INT 21H
+        
+        MOV DL, 'o'
+        MOV AH, 2
+        INT 21H
+        JMP EXIT
+    
+    PRINT_E:
+        MOV AH,2
+        MOV DX, 0AH
+        INT 21H
+        MOV DX, 0DH
+        INT 21H        
+        
+        MOV DL, 'e'
+        MOV AH, 2
+        INT 21H
+        
+    EXIT:
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+
+##########################################################################################
+;5
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+A DB 'PLEASE ENTER A CHAR: $'
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    
+    MOV AH, 9
+    LEA DX, A
+    INT 21H
+    
+    MOV CL, 'a'
+    MOV AH, 1
+    INT 21H
+    MOV BL,AL
+    CMP BL,CL
+    JL UPPERCASE
+    JMP EXIT
+    
+    UPPERCASE:
+        MOV AH,2
+        MOV DX,  0AH
+        INT 21H
+        MOV DX, 0DH
+        INT 21H
+        
+        MOV DL,BL
+        MOV AH,2
+        INT 21H
+     EXIT:
+       
+
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+##########################################################################################
+;6
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+A DB 'PLEASE ENTER A CHAR: $'
+NUM1 DB 'Y$'
+NUM2 DB 'y$'
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+
+    
+    MOV AH, 9
+    LEA DX, A
+    INT 21H
+    
+    MOV AH, 1
+    INT 21H
+    MOV BL,AL
+    
+    CMP BL,NUM1
+    JE YES_IT_IS
+    CMP BL,NUM2
+    JE YES_IT_IS
+    JMP EXIT
+    
+    YES_IT_IS:
+        MOV AH,2
+        MOV DX, 0AH
+        INT 21H
+        MOV DX, 0DH
+        INT 21H
+        
+        MOV DL,BL
+        MOV AH,2
+        INT 21H
+     EXIT:
+       
+
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+##########################################################################################
+;7
+
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+A DB 'PLEASE ENTER A NUM: $'
+B DB 'IT IS AN EVEN NUMBER!$'
+C DB 'IT IS AN ODD NUMBER!$'
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    MOV AH,9
+    LEA DX, A
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    
+
+    MOV AH,0
+    SUB AL, '0' ;CONVERT FORM ASCII TO DEC
+    MOV BL,2 
+    DIV BL
+    MOV CH,AH
+    MOV CL, 0
+    
+    CMP CH,CL
+    JE IT_IS_EVEN
+    JMP IT_IS_ODD
+    
+    
+    IT_IS_EVEN:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, B
+        INT 21H
+        JMP EXIT
+    IT_IS_ODD:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, C
+        INT 21H        
+    EXIT:    
+
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+##########################################################################################
+;8
+
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+A DB 'PLEASE ENTER A LETTER: $'
+ALPH1 DB 'A$'
+ALPH2 DB 'E$'
+ALPH3 DB 'I$'
+ALPH4 DB 'O$'
+ALPH5 DB 'U$'
+ALPH6 DB 'a$'
+ALPH7 DB 'e$'
+ALPH8 DB 'i$'
+ALPH9 DB 'o$'
+ALPH10 DB 'u$'
+
+B DB 'IT IS VOWEL$'
+C DB 'IT IS CONSONANT$'
+
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    MOV AH,9
+    LEA DX, A
+    INT 21H
+    
+    MOV AH,1
+    INT 21H
+    
+    MOV BL, AL
+    
+    CMP BL, ALPH1
+    JE IT_IS_V
+    CMP BL, ALPH2
+    JE IT_IS_V     
+    CMP BL, ALPH3
+    JE IT_IS_V    
+    CMP BL, ALPH4
+    JE IT_IS_V   
+    CMP BL, ALPH5
+    JE IT_IS_V
+    CMP BL, ALPH6
+    JE IT_IS_V
+    CMP BL, ALPH7
+    JE IT_IS_V
+    CMP BL, ALPH8
+    JE IT_IS_V
+    CMP BL, ALPH9
+    JE IT_IS_V
+    CMP BL, ALPH10
+    JE IT_IS_V
+    
+    JMP IT_IS_C
+    
+    
+    IT_IS_V:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX,B
+        INT 21H
+        
+        JMP EXIT
+       
+    IT_IS_C:
+        MOV AH,2
+        MOV DX,0AH
+        INT 21H
+        MOV DX,0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX,C
+        INT 21H
+      
+    EXIT:
+     
+
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+
+##########################################################################################
+;9
+
+.MODEL SMALL
+
+.STACK 100H
+
+.DATA
+B DB 'IT IS DIVISIBLE BY 5 AND 11$'
+C DB 'NO! IT IS NOT DIVISIBLE BY 5 AND 11$'
+
+.CODE
+
+MAIN PROC
+    ; CODE HERE
+    MOV AX, @DATA
+    MOV DS, AX
+    
+    
+    MOV AL,55H
+    MOV CH,5H
+    MOV CL,11H
+    MOV AH, 0
+    MOV BH, AL
+
+    DIV CH
+    
+    MOV BL,0
+    
+    CMP AH,BL
+    JE DIV_5
+    JMP NO_IT_IS_NOT
+    
+    DIV_5:
+        MOV AL,BH
+        DIV CL
+        CMP AH,BL
+        JE DIV_11
+        JMP NO_IT_IS_NOT
+        
+    DIV_11:
+        MOV AH,2
+        MOV DX, 0AH
+        INT 21H
+        MOV DX, 0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, B
+        INT 21H
+        JMP EXIT
+        
+    NO_IT_IS_NOT:
+        MOV AH,2
+        MOV DX, 0AH
+        INT 21H
+        MOV DX, 0DH
+        INT 21H
+        
+        MOV AH,9
+        LEA DX, C
+        INT 21H
+        
+    EXIT:
+
+
+    
+    MAIN ENDP
+END MAIN
+
+
+
+
+
+
+
+
+
+
+##########################################################################################
